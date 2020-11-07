@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DB_LazaroModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Factura">
+    <Key>
+      <PropertyRef Name="Id_Factura" />
+    </Key>
+    <Property Name="Id_Factura" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Factura_NitProveedor" Type="int" Nullable="false" />
+    <Property Name="Factura_NombreProveedor" Type="nvarchar" MaxLength="40" Nullable="false" />
+    <Property Name="Factura_Categoria" Type="nvarchar" MaxLength="40" />
+    <Property Name="Factura_Fecha" Type="date" />
+    <Property Name="Factura_TipoMoneda" Type="nvarchar" MaxLength="20" />
+    <Property Name="Factra_MontoTotal" Type="float" />
+    <Property Name="Factura_ruta" Type="varchar" MaxLength="455" />
+  </EntityType>
+  <EntityType Name="Usuario">
+    <Key>
+      <PropertyRef Name="Id_Usuario" />
+    </Key>
+    <Property Name="Id_Usuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Usuario_Correo" Type="nvarchar" MaxLength="40" Nullable="false" />
+    <Property Name="Usuario_Constrasenia" Type="nvarchar" MaxLength="40" Nullable="false" />
+  </EntityType>
+  <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DB_Lazaro.sys.database_firewall_rules' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+  <EntityType Name="database_firewall_rules">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="name" />
+      <PropertyRef Name="start_ip_address" />
+      <PropertyRef Name="end_ip_address" />
+      <PropertyRef Name="create_date" />
+      <PropertyRef Name="modify_date" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="start_ip_address" Type="varchar" MaxLength="45" Nullable="false" />
+    <Property Name="end_ip_address" Type="varchar" MaxLength="45" Nullable="false" />
+    <Property Name="create_date" Type="datetime" Nullable="false" />
+    <Property Name="modify_date" Type="datetime" Nullable="false" />
+  </EntityType>
+  <Function Name="LoginUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="correo" Type="nvarchar" Mode="In" />
+    <Parameter Name="contrasenia" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="spAgregaFactura" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Factura_NitProveedor" Type="int" Mode="In" />
+    <Parameter Name="Factura_NombreProveedor" Type="nvarchar" Mode="In" />
+    <Parameter Name="Factura_Categoria" Type="nvarchar" Mode="In" />
+    <Parameter Name="Factura_Fecha" Type="date" Mode="In" />
+    <Parameter Name="Factura_TipoMoneda" Type="nvarchar" Mode="In" />
+    <Parameter Name="Factra_MontoTotal" Type="float" Mode="In" />
+  </Function>
+  <Function Name="spSelectFactura" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="DB_LazaroModelStoreContainer">
+    <EntitySet Name="Factura" EntityType="Self.Factura" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="database_firewall_rules" EntityType="Self.database_firewall_rules" store:Type="Views" store:Schema="sys">
+      <DefiningQuery>SELECT 
+    [database_firewall_rules].[id] AS [id], 
+    [database_firewall_rules].[name] AS [name], 
+    [database_firewall_rules].[start_ip_address] AS [start_ip_address], 
+    [database_firewall_rules].[end_ip_address] AS [end_ip_address], 
+    [database_firewall_rules].[create_date] AS [create_date], 
+    [database_firewall_rules].[modify_date] AS [modify_date]
+    FROM [sys].[database_firewall_rules] AS [database_firewall_rules]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>

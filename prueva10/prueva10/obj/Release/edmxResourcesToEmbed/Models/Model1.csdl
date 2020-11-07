@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DB_LazaroModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Factura">
+    <Key>
+      <PropertyRef Name="Id_Factura" />
+    </Key>
+    <Property Name="Id_Factura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Factura_NitProveedor" Type="Int32" Nullable="false" />
+    <Property Name="Factura_NombreProveedor" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Factura_Categoria" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+    <Property Name="Factura_Fecha" Type="DateTime" Precision="0" />
+    <Property Name="Factura_TipoMoneda" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Factra_MontoTotal" Type="Double" />
+    <Property Name="Factura_ruta" Type="String" MaxLength="455" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Usuario">
+    <Key>
+      <PropertyRef Name="Id_Usuario" />
+    </Key>
+    <Property Name="Id_Usuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Usuario_Correo" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Usuario_Constrasenia" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="database_firewall_rules">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="name" />
+      <PropertyRef Name="start_ip_address" />
+      <PropertyRef Name="end_ip_address" />
+      <PropertyRef Name="create_date" />
+      <PropertyRef Name="modify_date" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="start_ip_address" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="end_ip_address" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="create_date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="modify_date" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
+  <EntityContainer Name="DB_LazaroEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Factura" EntityType="Self.Factura" />
+    <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+    <EntitySet Name="database_firewall_rules" EntityType="Self.database_firewall_rules" />
+    <FunctionImport Name="LoginUsuario" ReturnType="Collection(DB_LazaroModel.LoginUsuario_Result)">
+      <Parameter Name="correo" Mode="In" Type="String" />
+      <Parameter Name="contrasenia" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="spAgregaFactura">
+      <Parameter Name="Factura_NitProveedor" Mode="In" Type="Int32" />
+      <Parameter Name="Factura_NombreProveedor" Mode="In" Type="String" />
+      <Parameter Name="Factura_Categoria" Mode="In" Type="String" />
+      <Parameter Name="Factura_Fecha" Mode="In" Type="DateTime" />
+      <Parameter Name="Factura_TipoMoneda" Mode="In" Type="String" />
+      <Parameter Name="Factra_MontoTotal" Mode="In" Type="Double" />
+    </FunctionImport>
+    <FunctionImport Name="spSelectFactura" ReturnType="Collection(DB_LazaroModel.spSelectFactura_Result)" />
+  </EntityContainer>
+  <ComplexType Name="LoginUsuario_Result">
+    <Property Type="String" Name="Usuario_Correo" Nullable="false" MaxLength="40" />
+    <Property Type="String" Name="Usuario_Constrasenia" Nullable="false" MaxLength="40" />
+  </ComplexType>
+  <ComplexType Name="spSelectFactura_Result">
+    <Property Type="Int32" Name="Id_Factura" Nullable="false" />
+    <Property Type="Int32" Name="Factura_NitProveedor" Nullable="false" />
+    <Property Type="String" Name="Factura_NombreProveedor" Nullable="false" MaxLength="40" />
+    <Property Type="String" Name="Factura_Categoria" Nullable="true" MaxLength="40" />
+    <Property Type="DateTime" Name="Factura_Fecha" Nullable="true" />
+    <Property Type="String" Name="Factura_TipoMoneda" Nullable="true" MaxLength="20" />
+    <Property Type="Double" Name="Factra_MontoTotal" Nullable="true" />
+  </ComplexType>
+</Schema>
